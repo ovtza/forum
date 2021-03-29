@@ -110,18 +110,13 @@ if( isset($_GET['cmd']) and $_GET['cmd']=="editTopic" and $_GET['topic']!=""){
 
 
 // rejestracja uzytkownika
-if( isset($_POST['userid']) and $_POST['userid']!="" 
-and isset($_POST['username']) and $_POST['username']!="" 
-and isset($_POST['pass1']) and $_POST['pass1']!="" 
-and isset($_POST['pass2']) and $_POST['pass2']!="" 
-and $_POST['pass1']==$_POST['pass2'] and is_unique($_POST['userid']) == true){ // sprawdzam czy id jest unikalne i czy hasla sa takie same
-	if(validate($_POST['userid']) and validate($_POST['username'])){ //sprawdzam czy zgadza sie pattern po stronie serwera
+if(validRegistrationData($_POST)){ //walidacja
 		add_user($_POST['userid'], $_POST['username'], $_POST['pass1'], $users_file, $separator);
 		$users = get_users($users_file, $separator);
 		login($users, $_POST['userid'], $_POST['pass1']);
 		header("Location: index.php");exit;
 	}
-}
+
 // logowanie
 if( isset($_POST['useridlogin']) and $_POST['useridlogin']!="" 
 and isset($_POST['pass']) and $_POST['pass']!=""){ // sprawdzam czy id jest unikalne i czy hasla sa takie same
