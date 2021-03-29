@@ -397,12 +397,17 @@ function is_unique($userid, $datafile="uzytkownicy.txt", $separator=":-:" )
 //------------------------------------------------------------------------------
 // funkcja sprawdza czy znaki uzyte sie zgadzaja patternowi po stronie serwera
 //------------------------------------------------------------------------------
-function validate($text) {
+function validRegistrationData($data) {
+	if(!(isset($data['userid']) and $data['userid']!="")) return false; 
+	if(!(isset($data['username']) and $data['username']!="")) return false;
+	if(!(isset($data['pass1']) and $data['pass1']!="")) return false;
+	if(!(isset($data['pass2']) and $data['pass2']!="")) return false;
+	if(!($data['pass1']==$data['pass2'])) return false;
+	if(!(is_unique($data['userid']) == true)) return false;// sprawdzam czy id jest unikalne i czy hasla sa takie same
+	if (!(preg_match('/^[a-zA-Z0-9]+/', $data['userid']))) return false;
+	if (!(preg_match('/^[a-zA-Z0-9]+/', $data['username']))) return false;//sprawdzam czy zgadza sie pattern po stronie serwera
 
-	if (preg_match('/^[a-zA-Z0-9]+/', $text)) {
-		return true;
-	}
-return false;
+	return true;
 }
 //------------------------------------------------------------------------------
 // funkcja sprawdza dane przy logowaniu
