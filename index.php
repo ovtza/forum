@@ -115,10 +115,12 @@ and isset($_POST['username']) and $_POST['username']!=""
 and isset($_POST['pass1']) and $_POST['pass1']!="" 
 and isset($_POST['pass2']) and $_POST['pass2']!="" 
 and $_POST['pass1']==$_POST['pass2'] and is_unique($_POST['userid']) == true){ // sprawdzam czy id jest unikalne i czy hasla sa takie same
- add_user($_POST['userid'], $_POST['username'], $_POST['pass1'], $users_file, $separator);
- 	$users = get_users($users_file, $separator);
-	login($users, $_POST['userid'], $_POST['pass1']);
-  header("Location: index.php");exit;
+	if(validate($_POST['userid']) and validate($_POST['username'])){ //sprawdzam czy zgadza sie pattern po stronie serwera
+		add_user($_POST['userid'], $_POST['username'], $_POST['pass1'], $users_file, $separator);
+		$users = get_users($users_file, $separator);
+		login($users, $_POST['userid'], $_POST['pass1']);
+		header("Location: index.php");exit;
+	}
 }
 // logowanie
 if( isset($_POST['useridlogin']) and $_POST['useridlogin']!="" 

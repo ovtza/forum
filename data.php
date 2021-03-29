@@ -394,7 +394,16 @@ function is_unique($userid, $datafile="uzytkownicy.txt", $separator=":-:" )
 		}
 	return true;
 }
+//------------------------------------------------------------------------------
+// funkcja sprawdza czy znaki uzyte sie zgadzaja patternowi po stronie serwera
+//------------------------------------------------------------------------------
+function validate($text) {
 
+	if (preg_match('/^[a-zA-Z0-9]+/', $text)) {
+		return true;
+	}
+return false;
+}
 //------------------------------------------------------------------------------
 // funkcja sprawdza dane przy logowaniu
 //------------------------------------------------------------------------------
