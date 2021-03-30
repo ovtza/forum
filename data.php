@@ -345,7 +345,7 @@ function add_user($userid, $username, $pass1, $datafile="uzytkownicy.txt", $sepa
    $data = implode( $separator, 
                      array( bin2hex($userid), 
                             bin2hex($username),
-                            md5($pass1), //szyfrowanie
+                            $pass1, //szyfrowanie
                             "$permission",
                      )
                   );
