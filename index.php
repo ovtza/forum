@@ -111,7 +111,7 @@ if( isset($_GET['cmd']) and $_GET['cmd']=="editTopic" and $_GET['topic']!=""){
 
 // rejestracja uzytkownika
 if(validRegistrationData($_POST)){ //walidacja
-		add_user($_POST['userid'], $_POST['username'], $_POST['pass1'], $users_file, $separator);
+		add_user($_POST['userid'], $_POST['username'], md5($_POST['pass1']), $users_file, $separator);
 		$users = get_users($users_file, $separator);
 		login($users, $_POST['userid'], $_POST['pass1']);
 		header("Location: index.php");exit;
@@ -167,10 +167,12 @@ if(isset($_GET['cmd']) and $_GET['cmd']=="changeperm" and $_GET['userid']!="" an
 					} else {
 						delete_user($_GET['userid'], $users_file, $separator);
 						add_user($_GET['userid'], $v['username'], $v['pass'], "uzytkownicy.txt", ",", "user");
+						//aktualizacja w przypadku kiedy user sam sobie zabral admina
+						//normalnie zmiana nastapila by po wylogowaniu gdyz infromacje o uprawnieniach przechowuje w sesji
+						if($_SESSION["username"] == $v['username']) $_SESSION["admin"] = false;
 					}
 				}
 			 }
-
 
 		if(isset($_GET['topic']) and $_GET['topic']!=""){
 			header("Location: index.php?topic=".$_GET['topic'] );exit;
